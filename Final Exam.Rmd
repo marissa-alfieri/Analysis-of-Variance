@@ -1,0 +1,555 @@
+---
+title: "Final Exam"
+output: pdf_document
+date: "2025-12-09"
+editor_options: 
+  markdown: 
+    wrap: 72
+---2
+---
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M01 — BASIC STATISTICS & INFERENCE
+
+# ============================
+
+## M01.1 — Basic Statistics Concepts
+
+### Populations vs Samples
+
+-   **Population parameters:** $\mu, \sigma, \beta$
+-   **Sample statistics:** $\bar{x}, s, \hat{\beta}$
+
+**Type I Error:** The probability of rejecting the null hypothesis,
+provided that the null hypothesis is true.
+
+**Type II Error:** The probability of failing to reject the null
+hypothesis, provided that the null hypothesis is false.
+
+**Statistical Confidence:** The probability of failing to reject the
+null hypothesis, provided that the null hypothesis is true.
+
+**Statistical Power:** The probability of rejecting the null hypothesis,
+provided that the null hypothesis is false.
+
+### Measures of Center
+
+$$
+\bar{x} = \frac{1}{n}\sum x_i
+$$
+
+### Measures of Spread
+
+$$
+s^2 = \frac{1}{n-1}\sum (x_i - \bar{x})^2
+$$
+
+------------------------------------------------------------------------
+
+## M01.2 — Basic Inference Concepts
+
+### Sampling Distributions
+
+-   Distribution of a statistic across repeated samples\
+-   Confidence Intervals
+
+$$
+CI = \text{estimate} \pm t^* \cdot SE
+$$
+
+------------------------------------------------------------------------
+
+## M01.3 — One-Sample Mean Testing
+
+### Hypotheses
+
+$$
+H_0: \mu = \mu_0
+\quad
+H_a: \mu \neq \mu_0
+$$
+
+### Test Statistic
+
+$$
+t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} \sim t_{n-1}
+$$
+
+-   Sample variance:\
+    $$
+    s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2
+    $$
+
+-   Sample standard deviation:\
+    $$
+    s = \sqrt{s^2}
+    $$
+
+------------------------------------------------------------------------
+
+## M01.4 — Two-Sample Independent Mean Testing
+
+### Testing Equality of Variances (F-Test for Two Independent Samples)
+
+Before performing a two-sample mean test, we must determine whether the
+population variances are equal. This determines whether we use the
+**pooled t-test** or the **Welch t-test**.
+
+-   Sample variances: $$
+    s_1^2 = \frac{1}{n_1-1}\sum_{i=1}^{n_1} (x_{1i} - \bar{x}_1)^2
+    $$ $$
+    s_2^2 = \frac{1}{n_2-1}\sum_{i=1}^{n_2} (x_{2i} - \bar{x}_2)^2
+    $$
+
+### Hypotheses for Variance Test
+
+$$
+H_0: \sigma_1^2 = \sigma_2^2
+$$ $$
+H_a: \sigma_1^2 \ne \sigma_2^2
+$$
+
+### F-Test Statistic
+
+The test statistic is:
+
+$$
+F = \frac{s_1^2}{s_2^2}
+$$
+
+By convention, place the **larger sample variance in the numerator** so
+that:
+
+$$
+F \ge 1
+$$
+
+### Sampling Distribution
+
+$$
+F \sim F_{(n_1-1, \, n_2-1)}
+$$
+
+Degrees of freedom: - Numerator: $df_1 = n_1 - 1$ - Denominator:
+$df_2 = n_2 - 1$
+
+### Decision Rule
+
+Reject $H_0$ if:
+
+$$
+F > F_{\alpha/2, \, df_1, df_2}
+\quad \text{or} \quad
+F < \frac{1}{F_{\alpha/2, \, df_2, df_1}}
+$$
+
+### Interpretation
+
+-   If **fail to reject** $H_0$ → assume **equal variances**
+-   If **reject** $H_0$ → use **Welch t-test**
+
+------------------------------------------------------------------------
+
+### Which Two-Sample t-Test Do We Use?
+
+| Variance Result   | Test Used         |
+|-------------------|-------------------|
+| Variances equal   | **Pooled t-test** |
+| Variances unequal | **Welch t-test**  |
+
+------------------------------------------------------------------------
+
+### Connection to the Two-Sample t-Tests
+
+**Pooled t-test** (equal variances):
+
+$$
+t = \frac{\bar{x}_1 - \bar{x}_2}{s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}
+$$
+
+$$
+s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}
+$$
+
+**Welch t-test** (unequal variances):
+
+$$
+t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+$$
+
+Degrees of freedom (Welch):
+
+$$
+df \approx \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}
+{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}
+$$
+
+### Assumptions of the F-Test
+
+1.  Independent samples
+2.  Normal populations
+3.  No extreme outliers
+
+Violation of normality → F-test is **not reliable**
+
+------------------------------------------------------------------------
+
+## M01.5 — Finite Population Correction (FPC)
+
+Used when sampling **without replacement**:
+
+$$
+SE_{adj} = \sqrt{\frac{N-n}{N-1}} \cdot \frac{s}{\sqrt{n}}
+$$
+
+Using the FPC for standard error calculations will always (if n is not
+equal to 1) make your standard error smaller compared to the scenario
+for which the FPC is not used.
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M02 — REGRESSION CORE & SIMULATION
+
+# ============================
+
+## M02.1 — Simple Linear Regression (SLR)
+
+$$
+Y = \beta_0 + \beta_1 X + \varepsilon
+$$
+
+$$
+\hat{\beta}_1 = r \frac{s_y}{s_x}
+\quad
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}
+$$
+
+1.  **Linearity of the Data**
+2.  **Homoscedasticity of Responses**
+3.  **Normality of Responses**
+4.  **Independence of Responses**
+
+------------------------------------------------------------------------
+
+## M02.2 — Graphical Normality
+
+-   Histograms
+-   QQ-plots\
+    Normal ≈ points fall on line
+
+------------------------------------------------------------------------
+
+## M02.3–M02.4 — R Fundamentals
+
+-   Vectors, matrices, indexing
+-   `lm()`, `summary()`, `plot()`
+
+------------------------------------------------------------------------
+
+## M02.5 — Monte-Carlo Simulation
+
+Repeated random sampling to: - Approximate sampling distributions -
+Estimate probabilities - Verify theoretical results
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M03 — DISTRIBUTIONS & TESTING
+
+# ============================
+
+## M03.1 — CDFs & Quantiles
+
+$$
+F(x) = P(X \le x)
+$$
+
+Quantile: $$
+Q(p) = F^{-1}(p)
+$$
+
+------------------------------------------------------------------------
+
+## M03.2–M03.3 — Distribution Testing
+
+-   Kolmogorov–Smirnov
+-   Shapiro–Wilk
+-   Anderson–Darling
+
+Test for: $$
+H_0: \text{data follow a given distribution}
+$$
+
+------------------------------------------------------------------------
+
+## M03.4 — Pairwise Comparisons
+
+Used **after significant ANOVA**: - Tukey HSD - Bonferroni
+
+------------------------------------------------------------------------
+
+## M03.5 — Bartlett Test
+
+$$
+H_0: \sigma_1^2 = \sigma_2^2 = \dots
+$$
+
+Tests **homoscedasticity**
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M04 — ANOVA & LINEAR ALGEBRA
+
+# ============================
+
+## M04.1 — One-Factor ANOVA
+
+$$
+H_0: \mu_1=\mu_2=\dots=\mu_k
+$$
+
+$$
+SST = SSB + SSE
+$$
+
+$$
+F = \frac{MSB}{MSE}
+$$
+
+------------------------------------------------------------------------
+
+## M04.2 — Heteroscedastic ANOVA
+
+Used when variances are **unequal**\
+(Welch-type ANOVA)
+
+------------------------------------------------------------------------
+
+## M04.3 — Paired T-Test
+
+$$
+t = \frac{\bar{d}}{s_d/\sqrt{n}}
+$$
+
+------------------------------------------------------------------------
+
+## M04.4 — Linear Algebra
+
+Matrix model: $$
+y = X\beta + \varepsilon
+$$
+
+OLS estimator: $$
+\hat{\beta} = (X^TX)^{-1}X^Ty
+$$
+
+------------------------------------------------------------------------
+
+## M04.5 — Sphericity
+
+Equal variance of all difference scores
+
+------------------------------------------------------------------------
+
+## M04.6 — Repeated Measures ANOVA
+
+-   Uses **Mauchly’s Test**
+-   Corrections:
+    -   Greenhouse–Geisser
+    -   Huynh–Feldt
+
+------------------------------------------------------------------------
+
+## M04.7 — Two-Factor ANOVA
+
+-   Main effects
+-   Interaction effects
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M05 — RESAMPLING, OUTLIERS, NONPARAMETRICS
+
+# ============================
+
+## M05.2 — Bootstrap Sampling
+
+-   Resample **with replacement**
+-   Builds empirical sampling distributions
+
+------------------------------------------------------------------------
+
+## M05.3 — Outlier Detection
+
+-   Z-scores
+-   IQR fences
+-   Cook’s distance
+
+------------------------------------------------------------------------
+
+## M05.4–M05.5 — Nonparametric Methods
+
+| Parametric   | Nonparametric  |
+|--------------|----------------|
+| One-sample t | Sign test      |
+| Two-sample t | Mann–Whitney   |
+| Paired t     | Wilcoxon       |
+| ANOVA        | Kruskal–Wallis |
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M06–M07 — COMPLETE REGRESSION THEORY
+
+# ============================
+
+## One-Predictor Regression
+
+$$
+R^2 = 1 - \frac{SSE}{SST}
+\quad
+SE(b_1) = \sqrt{\frac{MSE}{S_{xx}}}
+$$
+
+------------------------------------------------------------------------
+
+## Multiple Linear Regression
+
+$$
+Y = \beta_0 + \beta_1X_1 + \cdots + \beta_pX_p + \varepsilon
+$$
+
+$$
+MSE = \frac{SSE}{n-p-1}
+$$
+
+Overall F-test: $$
+H_0:\beta_1=\cdots=\beta_p=0
+$$
+
+------------------------------------------------------------------------
+
+## Multicollinearity
+
+$$
+VIF_k = \frac{1}{1 - r_k^2}
+$$
+
+Problem: - Inflated SEs - Weak t-tests
+
+------------------------------------------------------------------------
+
+## Partial F-Test
+
+$$
+F = \frac{(SSE_r - SSE_f)/(p_f-p_r)}{SSE_f/(n-p_f-1)}
+$$
+
+------------------------------------------------------------------------
+
+## Sum-of-Squares Analysis
+
+$$
+R^2 = \frac{SSM}{SST}
+$$
+
+Adjusted: $$
+R^2_{adj} = 1 - \frac{SSE/(n-p-1)}{SST/(n-1)}
+$$
+
+------------------------------------------------------------------------
+
+## Ridge Regression (M07.4)
+
+$$
+\min ||Y - X\beta||_2^2 + \lambda||\beta||_2^2
+$$
+
+$$
+\hat{\beta}_{ridge} = (X^TX + \lambda I)^{-1}X^Ty
+$$
+
+-   Fixes multicollinearity
+-   Shrinks coefficients
+
+------------------------------------------------------------------------
+
+## LASSO & LAD (M07.5)
+
+LASSO: $$
+\min ||Y-X\beta||_2^2 + \lambda||\beta||_1
+$$
+
+LAD: $$
+\min ||Y-X\beta||_1
+$$
+
+------------------------------------------------------------------------
+
+# ============================
+
+# M08 — LOGISTIC & TIME SERIES
+
+# ============================
+
+## M08.1 — Logistic Regression
+
+$$
+\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1X_1 + \cdots
+$$
+
+-   Binary Y
+-   Estimated via MLE
+-   Interpreted via odds ratios
+
+------------------------------------------------------------------------
+
+## M08.2 — Time Series
+
+### Moving Average
+
+$$
+\hat{y}_t = \frac{1}{w}\sum_{i=1}^w y_{t-i}
+$$
+
+------------------------------------------------------------------------
+
+# ============================
+
+# MASTER REGRESSION COMPARISON
+
+# ============================
+
+| Method | Penalty | Selects Variables | Handles Collinearity | Robust to Outliers | Use Case |
+|------------|------------|------------|------------|------------|------------|
+| OLS | None | ❌ | ❌ | ❌ | Baseline |
+| Ridge | L2 | ❌ | ✅ | ❌ | Collinearity |
+| LASSO | L1 | ✅ | ✅ | ❌ | Feature selection |
+| LAD | L1 (residuals) | ❌ | ❌ | ✅ | Outliers |
+| Logistic | MLE | ❌ | ❌ | ❌ | Binary Y |
+
+------------------------------------------------------------------------
+
+# ✅ FINAL EXAM CORE FORMULAS
+
+$$
+R^2 = 1 - \frac{SSE}{SST}
+\quad
+RMSE = \sqrt{\frac{SSE}{n-p-1}}
+\quad
+b_1 = r\frac{s_y}{s_x}
+\quad
+VIF = \frac{1}{1-r^2}
+$$
+
+------------------------------------------------------------------------
